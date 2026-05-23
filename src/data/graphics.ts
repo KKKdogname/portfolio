@@ -1,0 +1,68 @@
+import type { Graphic } from '../types/portfolio';
+
+export const graphics: Graphic[] = [
+  {
+    id: 'poster-festival',
+    title: '音乐节视觉海报',
+    description: '年度城市音乐节的主视觉海报设计，融合字体排印与抽象图形。',
+    image: 'https://picsum.photos/seed/graphic1/800/1000',
+    category: ['海报', '排版'],
+    featured: true,
+  },
+  {
+    id: 'brand-identity',
+    title: '独立品牌 VI 系统',
+    description: '为生活方式品牌打造的完整视觉识别系统，包含标志、色彩、字体规范。',
+    image: 'https://picsum.photos/seed/graphic2/800/800',
+    category: ['品牌', 'VI'],
+    featured: true,
+  },
+  {
+    id: 'packaging',
+    title: '高端茶叶包装设计',
+    description: '以东方美学为灵感的茶叶礼盒包装设计，特殊纸材与烫金工艺。',
+    image: 'https://picsum.photos/seed/graphic3/800/1100',
+    category: ['包装', '印刷'],
+    featured: true,
+  },
+  {
+    id: 'editorial',
+    title: '独立杂志版式设计',
+    description: '半年刊独立杂志的全书版式设计与艺术指导。',
+    image: 'https://picsum.photos/seed/graphic4/800/600',
+    category: ['编辑', '排版'],
+    featured: false,
+  },
+  {
+    id: 'illustration',
+    title: '系列插画作品',
+    description: '个人插画系列《梦境碎片》，探索线条与留白的叙事可能。',
+    image: 'https://picsum.photos/seed/graphic5/800/900',
+    category: ['插画', '艺术'],
+    featured: false,
+  },
+  {
+    id: 'ui-design',
+    title: 'APP 界面设计',
+    description: '生活美学类应用的 UI/UX 设计，注重留白与交互节奏。',
+    image: 'https://picsum.photos/seed/graphic6/800/700',
+    category: ['UI', '数字'],
+    featured: false,
+  },
+  {
+    id: 'book-cover',
+    title: '文学书封设计',
+    description: '为当代小说系列设计的封面，以抽象图形传达文本精神。',
+    image: 'https://picsum.photos/seed/graphic7/800/1000',
+    category: ['书籍', '出版'],
+    featured: false,
+  },
+  {
+    id: 'exhibition',
+    title: '艺术展视觉设计',
+    description: '当代艺术群展的完整视觉方案，包含海报、导视、画册。',
+    image: 'https://picsum.photos/seed/graphic8/800/800',
+    category: ['展览', '海报'],
+    featured: false,
+  },
+];

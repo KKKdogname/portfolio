@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-darkroom-bg text-darkroom-text font-body antialiased;
+    margin: 0;
+  }
+
+  ::selection {
+    @apply bg-darkroom-accent/30 text-darkroom-text;
+  }
+}
+
+@layer components {
+  .section-chapter {
+    @apply font-display text-5xl md:text-7xl text-darkroom-accent/50 font-semibold leading-none;
+  }
+
+  .section-divider {
+    @apply border-t border-darkroom-border;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:bg-[#2a2a2a] hover:shadow-lg hover:shadow-black/20;
+  }
+}
