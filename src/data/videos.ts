@@ -1,5 +1,15 @@
 import type { Video } from '../types/portfolio';
 
+/*
+ * 视频托管在七牛云 Kodo，格式示例：
+ *   videoUrl: "https://你的域名.qiniucdn.com/videos/showreel.mp4"
+ *
+ * 更新步骤：
+ *   1. 上传视频到七牛云存储空间
+ *   2. 复制文件的外链地址
+ *   3. 粘贴到下方 videoUrl 字段
+ */
+
 export const videos: Video[] = [
   {
     id: 'brand-film',
