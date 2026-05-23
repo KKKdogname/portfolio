@@ -22,7 +22,7 @@ export default function VideosPage() {
   return (
     <div className="max-w-6xl mx-auto px-5 md:px-10 py-16 md:py-24">
       <AnimatedEntrance>
-        <SectionTitle chapter="01" title="Video / 影像" />
+        <SectionTitle chapter="01" title="影像作品" />
       </AnimatedEntrance>
 
       <AnimatedEntrance delay={0.1}>

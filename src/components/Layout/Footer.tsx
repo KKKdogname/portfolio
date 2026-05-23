@@ -18,7 +18,7 @@ export default function Footer() {
           ))}
         </div>
         <p className="text-xs text-darkroom-text-dim tracking-wider m-0">
-          © {new Date().getFullYear()} {profile.name}. All rights reserved.
+          © {new Date().getFullYear()} {profile.name}. 保留所有权利。
         </p>
       </div>
     </footer>

@@ -28,7 +28,7 @@ export default function GraphicsPage() {
   return (
     <div className="max-w-6xl mx-auto px-5 md:px-10 py-16 md:py-24">
       <AnimatedEntrance>
-        <SectionTitle chapter="02" title="Graphic / 平面" />
+        <SectionTitle chapter="02" title="平面作品" />
       </AnimatedEntrance>
 
       <AnimatedEntrance delay={0.1}>

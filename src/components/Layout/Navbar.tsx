@@ -3,10 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/videos', label: 'Video' },
-  { to: '/graphics', label: 'Graphic' },
-  { to: '/about', label: 'About' },
+  { to: '/', label: '首页' },
+  { to: '/videos', label: '视频' },
+  { to: '/graphics', label: '平面' },
+  { to: '/about', label: '关于' },
 ];
 
 export default function Navbar() {
@@ -45,7 +45,7 @@ export default function Navbar() {
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden text-darkroom-text p-1"
-          aria-label="Toggle menu"
+          aria-label="菜单"
         >
           {open ? (
             <XMarkIcon className="w-6 h-6" />

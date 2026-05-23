@@ -22,7 +22,7 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <p className="text-[11px] text-darkroom-accent uppercase tracking-[0.2em] mb-6 font-medium">
-              Chapter 01
+              第一章
             </p>
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-semibold text-darkroom-text leading-tight m-0">
               {profile.title}
@@ -38,13 +38,13 @@ export default function HomePage() {
                 to="/videos"
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-darkroom-text hover:text-darkroom-accent transition-colors no-underline"
               >
-                View Videos <ArrowRightIcon className="w-4 h-4" />
+                查看视频 <ArrowRightIcon className="w-4 h-4" />
               </Link>
               <Link
                 to="/graphics"
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-darkroom-text hover:text-darkroom-accent transition-colors no-underline"
               >
-                View Graphics <ArrowRightIcon className="w-4 h-4" />
+                查看平面 <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </div>
           </motion.div>
@@ -64,7 +64,7 @@ export default function HomePage() {
             />
             <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
               <span className="text-xs uppercase tracking-[0.3em] text-white/40 font-medium">
-                Showreel
+                作品集锦
               </span>
             </div>
           </motion.div>
@@ -74,7 +74,7 @@ export default function HomePage() {
       {/* Featured Videos */}
       <section className="max-w-6xl mx-auto px-5 md:px-10 pt-4 pb-16">
         <AnimatedEntrance>
-          <SectionTitle chapter="01" title="Featured / 影像" />
+          <SectionTitle chapter="01" title="精选影像" />
         </AnimatedEntrance>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-darkroom-border border border-darkroom-border">
           {featuredVideos.map((video, i) => (
@@ -108,7 +108,7 @@ export default function HomePage() {
       {/* Featured Graphics */}
       <section className="max-w-6xl mx-auto px-5 md:px-10 pb-16">
         <AnimatedEntrance>
-          <SectionTitle chapter="02" title="Featured / 平面" />
+          <SectionTitle chapter="02" title="精选平面" />
         </AnimatedEntrance>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-darkroom-border border border-darkroom-border">
           {featuredGraphics.map((item, i) => (
@@ -144,7 +144,7 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-5 md:px-10 py-16 md:py-24 text-center">
           <AnimatedEntrance>
             <p className="text-[11px] text-darkroom-accent uppercase tracking-[0.2em] mb-6 font-medium">
-              About
+              关于我
             </p>
             <p className="font-display text-2xl md:text-3xl text-darkroom-text font-medium max-w-2xl mx-auto leading-relaxed">
               {profile.bio[0]}
@@ -153,7 +153,7 @@ export default function HomePage() {
               to="/about"
               className="inline-flex items-center gap-2 mt-8 text-xs uppercase tracking-widest text-darkroom-text-dim hover:text-darkroom-accent transition-colors no-underline"
             >
-              More About Me <ArrowRightIcon className="w-4 h-4" />
+              了解更多 <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </AnimatedEntrance>
         </div>

@@ -7,7 +7,7 @@ export default function AboutPage() {
   return (
     <div className="max-w-6xl mx-auto px-5 md:px-10 py-16 md:py-24">
       <AnimatedEntrance>
-        <SectionTitle chapter="03" title="About / 关于" />
+        <SectionTitle chapter="03" title="关于" />
       </AnimatedEntrance>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mt-8">
@@ -50,7 +50,7 @@ export default function AboutPage() {
           <AnimatedEntrance delay={0.4}>
             <div className="mt-10 pt-8 border-t border-darkroom-border">
               <h3 className="text-xs uppercase tracking-[0.2em] text-darkroom-text mb-6 font-medium">
-                Get in Touch
+                联系方式
               </h3>
 
               <a
