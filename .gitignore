@@ -28,9 +28,9 @@ dist-ssr
 *.sln
 *.sw?
 
-.vercel
-
 # Sensitive / temporary
-key
+key*
 *qiniu*
+*upload-vod*
 报错
+.vercel
