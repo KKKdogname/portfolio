@@ -38,7 +38,7 @@ export default function VideosPage() {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-darkroom-border border border-darkroom-border"
       >
         <AnimatePresence mode="popLayout">
-          {filtered.map((video, i) => {
+          {filtered.map((video) => {
             const originalIndex = videos.indexOf(video);
             return (
               <motion.div
