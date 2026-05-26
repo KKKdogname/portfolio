@@ -1744,7 +1744,7 @@ thoughtModal.addEventListener('click', (e) => {
   if (e.target.classList.contains('thought-modal__backdrop')) closeThoughtModal();
 });
 
-// Thought card interaction: swipe to scroll, tap to open/navigate
+// Thought card interaction: swipe to scroll, tap/click to open/navigate
 const thoughtsTrackEl = document.getElementById('thoughtsTrack');
 const thoughtItems = thoughtsTrackEl ? thoughtsTrackEl.querySelectorAll('.thoughts__item') : [];
 
@@ -1772,13 +1772,14 @@ function handleThoughtTap(card) {
   }
 }
 
-// Touch: track movement to distinguish tap vs swipe
-let thoughtTouch = { startX: 0, startY: 0, target: null };
+// Touch: track movement to distinguish tap vs swipe, suppress subsequent click
+let thoughtTouch = { startX: 0, startY: 0, target: null, handled: false };
 if (thoughtsTrackEl) {
   thoughtsTrackEl.addEventListener('touchstart', (e) => {
     thoughtTouch.startX = e.touches[0].clientX;
     thoughtTouch.startY = e.touches[0].clientY;
     thoughtTouch.target = e.target.closest('.thoughts__card');
+    thoughtTouch.handled = false;
   }, { passive: true });
 
   thoughtsTrackEl.addEventListener('touchend', (e) => {
@@ -1786,17 +1787,20 @@ if (thoughtsTrackEl) {
     const dy = Math.abs(e.changedTouches[0].clientY - thoughtTouch.startY);
     if (dx < 10 && dy < 10 && thoughtTouch.target) {
       handleThoughtTap(thoughtTouch.target);
+      thoughtTouch.handled = true;
     }
     thoughtTouch.target = null;
   });
 }
 
-// Desktop: click handler (no swipe ambiguity with mouse)
+// Click: fires on desktop, also fires after touchend on mobile (suppressed if already handled)
 document.querySelectorAll('.thoughts__card').forEach((card) => {
-  card.addEventListener('click', (e) => {
-    if (window.innerWidth >= 700) {
-      handleThoughtTap(card);
+  card.addEventListener('click', () => {
+    if (thoughtTouch.handled) {
+      thoughtTouch.handled = false;
+      return;
     }
+    handleThoughtTap(card);
   });
 });
 
