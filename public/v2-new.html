@@ -1520,33 +1520,59 @@ lightbox.addEventListener('click', (e) => {
   }
 });
 
-// Lightbox track: click on item → advance (desktop) or prev/next (mobile)
+// Lightbox track: tap vs swipe on items
+let lbTouch = { startX: 0, startY: 0, target: null };
+
+lightboxTrack.addEventListener('touchstart', (e) => {
+  lbTouch.startX = e.touches[0].clientX;
+  lbTouch.startY = e.touches[0].clientY;
+  lbTouch.target = e.target.closest('.lightbox__item');
+}, { passive: true });
+
+lightboxTrack.addEventListener('touchend', (e) => {
+  const dx = Math.abs(e.changedTouches[0].clientX - lbTouch.startX);
+  const dy = Math.abs(e.changedTouches[0].clientY - lbTouch.startY);
+  if (dx >= 10 || dy >= 10 || !lbTouch.target) { lbTouch.target = null; return; }
+
+  // It's a tap
+  const item = lbTouch.target;
+  const idx = parseInt(item.dataset.index);
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+
+  if (idx === lightboxIndex) {
+    // Tap on active item: left 30% → prev, right 70% → next
+    const rect = item.getBoundingClientRect();
+    const relX = e.changedTouches[0].clientX - rect.left;
+    const dir = relX / rect.width < 0.3 ? -1 : 1;
+    const newIdx = lightboxIndex + dir;
+    if (newIdx < 0 || newIdx >= lbItems.length) { lbTouch.target = null; return; }
+    lightboxIndex = newIdx;
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === newIdx));
+    updateLightboxCursors();
+    lbItems[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    scrollToItem(newIdx, false);
+  } else {
+    // Tap on side item: navigate to it
+    lightboxIndex = idx;
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === idx));
+    updateLightboxCursors();
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    scrollToItem(idx, false);
+  }
+  lbTouch.target = null;
+});
+
+// Desktop: click on item → close (active) or navigate (side)
 lightboxTrack.addEventListener('click', (e) => {
+  if (window.innerWidth < 700) return;
   const item = e.target.closest('.lightbox__item');
   if (!item) return;
   const idx = parseInt(item.dataset.index);
   const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
-  const isMobile = window.innerWidth < 700;
 
   if (idx === lightboxIndex) {
-    if (isMobile) {
-      // Mobile: split active item into left (30%) prev / right (70%) next
-      const rect = item.getBoundingClientRect();
-      const relX = e.clientX - rect.left;
-      const ratio = relX / rect.width;
-      const dir = ratio < 0.3 ? -1 : 1;
-      const newIdx = lightboxIndex + dir;
-      if (newIdx < 0 || newIdx >= lbItems.length) return;
-      lightboxIndex = newIdx;
-      lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === newIdx));
-      updateLightboxCursors();
-      lbItems[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      scrollToItem(newIdx, false);
-    } else {
-      closeLightbox();
-    }
+    closeLightbox();
   } else {
-    // Navigate to that item
     lightboxIndex = idx;
     lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === idx));
     updateLightboxCursors();
