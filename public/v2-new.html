@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olivier Carignan</title>
+<meta name="description" content="Designer, Engineer & Founder">
+<style>
+/* ── Font ── */
+@font-face {
+  font-family: 'm';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('v2/ABCMonumentGroteskVariable.woff2') format('woff2');
+}
+
+:root {
+  --font-sans: 'm', Helvetica, sans-serif;
+  --background-color: #fff;
+  --text-color: #131718;
+  --accent-color: #63635e;
+  --large: 768px;
+  --columns: 4;
+  --padding: 3.2rem;
+  --gap: 0.8rem;
+}
+
+/* ── Base ── */
+html, body {
+  font-family: var(--font-sans);
+  color: var(--text-color);
+  background-color: var(--background-color);
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
+  font-weight: 375 !important;
+}
+html { font-size: 62.5%; }
+body {
+  letter-spacing: -0.01em;
+  margin: 0;
+  font-size: 1.75rem;
+  line-height: 1.44;
+  overflow-x: hidden;
+}
+* { box-sizing: border-box; }
+:focus:not(:focus-visible) { outline: none; }
+::selection {
+  text-shadow: 0 0 0.75rem var(--text-color);
+  color: transparent;
+  background-color: transparent;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 375;
+  line-height: 1.2;
+}
+h2, h3, h4, h5 {
+  color: var(--accent-color);
+  margin-bottom: 0.5lh;
+}
+p { margin: 0; }
+a {
+  color: inherit;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  display: inline;
+  position: relative;
+}
+p a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+ul { margin: 0; padding: 0; list-style: none; }
+ul li { margin: 0; padding: 0; }
+
+/* ── Grid ── */
+.grid {
+  --columns: 4;
+  --padding: 3.2rem;
+  --gap: 0.8rem;
+  max-width: calc(42rem + (var(--padding) * 2) + (var(--gap) * 2));
+  gap: var(--gap);
+  grid-template-columns: var(--padding) repeat(var(--columns), minmax(0, 1fr)) var(--padding);
+  grid-auto-rows: min-content;
+  row-gap: 0;
+  width: 100%;
+  margin-inline: auto;
+  display: grid;
+}
+@media (min-width: 700px) {
+  .grid {
+    --columns: 6;
+    max-width: calc(604px + (var(--padding) * 2) + (var(--gap) * 2));
+  }
+}
+.grid .subgrid {
+  grid-column: 2 / -2;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  gap: 0 var(--gap);
+  display: grid;
+}
+
+/* ── App layout ── */
+.app { padding: 6rem 0 0; position: relative; }
+
+/* ── Nav ── */
+.nav {
+  grid-column: 1 / -1;
+  margin-bottom: 2lh;
+}
+@media (min-width: 700px) {
+  .nav { grid-column: 2 / -2; }
+}
+
+/* ── Home ── */
+.home {
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  z-index: 1;
+  padding-bottom: 6rem;
+  display: grid;
+  position: relative;
+}
+.home > * {
+  grid-column: 1 / -1;
+  margin-bottom: 1lh;
+}
+.home > *:last-child { margin-bottom: 0; }
+.home .clients { margin-bottom: 4lh; }
+@media (min-width: 700px) {
+  .home .clients { margin-bottom: 6lh; }
+}
+.home .connect { z-index: 1; position: relative; }
+@media (min-width: 700px) {
+  .home { padding-bottom: 6rem; }
+  .home p,
+  .home .clients,
+  .home .connect { grid-column: 2 / -2; }
+  .home .clients { margin-bottom: 12rem; }
+}
+
+/* ── Icon link ── */
+.icon-link {
+  vertical-align: middle;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+}
+.icon-link:focus-visible {
+  outline-offset: 4px;
+  border-radius: 2px;
+  outline: 2px solid;
+}
+.icon-link .icon-link__icon {
+  opacity: 0;
+  flex-shrink: 0;
+  width: 0.75em;
+  height: 0.75em;
+  margin-left: -2rem;
+  transition: margin-left 0.3s cubic-bezier(0, 0.55, 0.45, 1), opacity 0.3s cubic-bezier(0, 0.55, 0.45, 1);
+  display: inline-flex;
+  position: relative;
+}
+.icon-link .icon-link__icon svg { width: 100%; height: 100%; }
+.icon-link .icon--copy,
+.icon-link .icon--check {
+  transform-origin: 50%;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s;
+  display: flex;
+  position: absolute;
+  inset: 0;
+}
+.icon-link .icon--check { opacity: 0; transform: scale(0) rotate(-45deg); }
+
+@media (hover: hover) and (pointer: fine) {
+  .icon-link:hover .icon-link__icon { opacity: 1; margin-left: 0; }
+  .icon-link.copied-out .icon-link__icon { opacity: 0; margin-left: -2rem; }
+  .icon-link.copied-out .icon--copy { opacity: 0; transition: none; transform: scale(0) rotate(45deg); }
+  .icon-link.copied-out .icon--check { opacity: 1; transition: none; transform: scale(1) rotate(0); }
+}
+@media not all and (hover: hover) {
+  .icon-link .icon-link__icon { opacity: 1; margin-left: 0; }
+}
+.icon-link.copied .icon-link__icon { opacity: 1; margin-left: 0; }
+.icon-link.copied .icon--copy { opacity: 0; transform: scale(0) rotate(45deg); }
+.icon-link.copied .icon--check { opacity: 1; transform: scale(1) rotate(0); }
+
+/* ── Slider ── */
+.slider {
+  width: 100vw;
+  margin-top: 3lh;
+  margin-bottom: 4.75lh;
+  margin-left: calc(50% - 50vw);
+}
+@media (min-width: 700px) {
+  .slider { margin-top: 4lh; margin-bottom: 6.75lh; }
+}
+.slider .slider__track {
+  gap: var(--gap);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin-block: -48px;
+  padding-block: 48px;
+  display: flex;
+  overflow: auto clip;
+  touch-action: pan-x pan-y;
+}
+.slider .slider__track::-webkit-scrollbar { display: none; }
+.slider .slider__track:focus { outline: none; }
+.slider .slider__item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+.slider .slider__item:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+  border-radius: 18px;
+}
+@media (max-width: 699px) {
+  .slider .slider__item { scroll-snap-align: center; }
+}
+.slider .slider__item .slider__item-inner {
+  filter: none;
+  border-radius: 16px;
+  transition: translate 0.35s cubic-bezier(0.2, 0, 0, 1), transform 0.35s cubic-bezier(0.2, 0, 0, 1), filter 0.35s cubic-bezier(0.2, 0, 0, 1);
+  position: relative;
+  overflow: hidden;
+  container-type: inline-size;
+}
+@media (max-width: 699px) {
+  .slider .slider__item .slider__item-inner {
+    will-change: transform, filter;
+    border-radius: 12px;
+    transition: none;
+  }
+}
+@media (hover: hover) {
+  .slider .slider__item .slider__item-inner:hover {
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.05)) drop-shadow(0 2px 4px rgba(0,0,0,0.02));
+    transform: scale(1.01);
+  }
+}
+.slider .slider__item.slider__item--transitioning .slider__item-inner {
+  filter: none;
+  transition: none;
+}
+.slider .slider__item img,
+.slider .slider__item video {
+  cursor: url('v2/cursor_plus.svg') 8 8, zoom-in;
+  object-fit: cover;
+  aspect-ratio: var(--ar, 3 / 2);
+  border-radius: 16px;
+  width: 100%;
+  display: block;
+}
+.slider .slider__item[data-ar="portrait"] { width: clamp(240px, 28vw, 340px); }
+.slider .slider__item[data-ar="portrait"] img { aspect-ratio: 3 / 4; }
+@media (min-width: 700px) {
+  .slider .slider__item[data-ar="landscape"] { width: 628px; }
+}
+@media (max-width: 699px) {
+  .slider .slider__item img,
+  .slider .slider__item video { border-radius: 12px; }
+  .slider .slider__item[data-ar="portrait"] { width: 42vw; }
+}
+.slider .slider__item video {
+  opacity: 0;
+  transition: opacity 0.3s;
+  position: absolute;
+  inset: 0;
+}
+.slider .slider__item.slider__item--active video { opacity: 1; }
+.slider .slider__item.slider__item--video-ready img { opacity: 0; }
+.slider .slider__meta { margin-top: 0.75lh; }
+.slider .slider__meta h3 { color: var(--text-color); margin: 0; }
+.slider .slider__meta p { color: var(--accent-color); }
+@media (min-width: 700px) {
+  .slider { margin-block: 12rem; }
+}
+
+/* ── Lightbox ── */
+.lightbox {
+  z-index: 100;
+  align-items: center;
+  display: flex;
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s 0.35s;
+}
+.lightbox.lightbox--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s 0s;
+}
+.lightbox .lightbox__backdrop {
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  cursor: zoom-out;
+  background-color: rgba(0,0,0,0);
+  position: absolute;
+  inset: 0;
+  transition: backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              -webkit-backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: backdrop-filter;
+}
+.lightbox.lightbox--open .lightbox__backdrop {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  background-color: rgba(0,0,0,0.1);
+}
+.lightbox .lightbox__track {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 4rem;
+  width: 100%;
+  padding-inline: 2.5vw;
+  scroll-padding-inline: 2.5vw;
+  display: flex;
+  position: relative;
+  overflow: auto hidden;
+  will-change: transform;
+}
+@media (min-width: 700px) {
+  .lightbox .lightbox__track { padding-inline: 12.5vw; scroll-padding-inline: 12.5vw; }
+}
+.lightbox .lightbox__track::-webkit-scrollbar { display: none; }
+.lightbox .lightbox__item {
+  scroll-snap-align: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: min(95vw, 120dvh);
+  position: relative;
+  container-type: inline-size;
+  will-change: transform, opacity, filter;
+}
+@media (min-width: 700px) {
+  .lightbox .lightbox__item { width: min(75vw, 120dvh); }
+}
+.lightbox:not(.lightbox--revealed) .lightbox__item:not(.lightbox__item--active) {
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(0.9);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lightbox .lightbox__item img,
+.lightbox .lightbox__item video {
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+  border-radius: 12px;
+  width: 100%;
+  max-height: 80vh;
+  display: block;
+  will-change: transform;
+}
+@media screen {
+  .lightbox .lightbox__item img,
+  .lightbox .lightbox__item video { border-radius: 16px; }
+}
+.lightbox .lightbox__img { display: block; }
+.lightbox .lightbox__img--high {
+  opacity: 0;
+  transition: opacity 0.4s;
+  position: absolute;
+  inset: 0;
+}
+.lightbox .lightbox__img--high.lightbox__img--ready { opacity: 1; }
+.lightbox .lightbox__item video {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+}
+.lightbox .lightbox__item--active {
+  cursor: pointer;
+}
+.lightbox .lightbox__item--active video { opacity: 1; }
+.lightbox .lightbox__item--video-ready img { opacity: 0; }
+.lightbox .lightbox__close { display: none; }
+@media (max-width: 699px) {
+  .lightbox .lightbox__close {
+    z-index: 10;
+    color: var(--text-color);
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    opacity: 0;
+    background: rgba(99,99,94,0.1);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: none;
+    border-radius: 999px;
+    padding: 1.25rem;
+    font-size: 0.875rem;
+    transition: opacity 1s cubic-bezier(0, 0.55, 0.45, 1);
+    display: block;
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+.lightbox.lightbox--revealed .lightbox__item {
+  opacity: 1;
+  filter: blur(0);
+  transition: filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.lightbox.lightbox--revealed .lightbox__item video { transition: opacity 0.3s; }
+.lightbox.lightbox--revealed .lightbox__item--active { transform: scale(1); }
+.lightbox.lightbox--revealed .lightbox__close { opacity: 1; }
+.lightbox.lightbox--closing .lightbox__backdrop {
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0, 0.55, 0.45, 1);
+}
+.lightbox.lightbox--closing .lightbox__item:not(.lightbox__item--active) {
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 0.3s cubic-bezier(0, 0.55, 0.45, 1), filter 0.3s cubic-bezier(0, 0.55, 0.45, 1), transform 0.3s cubic-bezier(0, 0.55, 0.45, 1);
+  transform: scale(0.92);
+}
+.lightbox.lightbox--closing .lightbox__close {
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0, 0.55, 0.45, 1);
+}
+.lightbox.lightbox--closing .lightbox__item--active {
+  opacity: 0;
+  transition: opacity 0s linear 0.4s;
+}
+
+/* ── Thoughts ── */
+.thoughts {
+  width: 100vw;
+  margin-bottom: 4lh;
+  margin-left: calc(50% - 50vw);
+}
+@media (min-width: 700px) {
+  .thoughts { margin-bottom: 6lh; }
+}
+.thoughts .thoughts__title { color: var(--accent-color); }
+.thoughts .thoughts__track {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  gap: 8px;
+  margin-block: -48px;
+  padding-block: 48px;
+  display: flex;
+  overflow: auto clip;
+  touch-action: pan-x pan-y;
+}
+.thoughts .thoughts__track::-webkit-scrollbar { display: none; }
+.thoughts .thoughts__item {
+  scroll-snap-align: start;
+  filter: none;
+  flex-shrink: 0;
+  transition: translate 0.35s cubic-bezier(0.2, 0, 0, 1), scale 0.35s cubic-bezier(0.2, 0, 0, 1), filter 0.35s cubic-bezier(0.2, 0, 0, 1);
+}
+@media (hover: hover) {
+  .thoughts .thoughts__item:hover {
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08)) drop-shadow(0 2px 4px rgba(0,0,0,0.04));
+    translate: 0 -6px;
+    scale: 1.01;
+  }
+}
+.thoughts .thoughts__card {
+  aspect-ratio: 4 / 5;
+  cursor: pointer;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.thoughts .thoughts__card:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+@media (min-width: 700px) {
+  .thoughts .thoughts__card { border-radius: 16px; }
+}
+.thoughts .thoughts__card .card-bg {
+  position: absolute;
+  inset: 0;
+}
+.thoughts .thoughts__card .card-bg img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.thoughts .thoughts__card .meta {
+  z-index: 1;
+  justify-content: space-between;
+  align-items: flex-end;
+  display: flex;
+  position: absolute;
+  bottom: 1.6rem;
+  left: 1.6rem;
+  right: 1.6rem;
+}
+@media (min-width: 700px) {
+  .thoughts .thoughts__card .meta { bottom: 2rem; left: 2rem; right: 2rem; }
+}
+.thoughts .thoughts__card .meta .meta__text h4 {
+  color: #fff;
+  margin: 0;
+}
+.thoughts .thoughts__card .meta .meta__text span { color: rgba(250,250,250,0.6); }
+.thoughts .thoughts__card .meta svg { width: 1lh; height: 1lh; flex-shrink: 0; }
+.thoughts .thoughts__card .meta svg path { fill: rgba(255,255,255,0.7); }
+.thoughts .thoughts__card-overlay {
+  pointer-events: none;
+  background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%);
+  position: absolute;
+  inset: 0;
+}
+@media (min-width: 700px) {
+  .thoughts { margin-bottom: 12rem; }
+}
+
+/* ── Thought Modal ── */
+.thought-modal {
+  z-index: 100;
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s 0.3s;
+}
+.thought-modal.thought-modal--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s 0s;
+}
+.thought-modal .thought-modal__backdrop {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  cursor: zoom-out;
+  background-color: rgba(0,0,0,0.1);
+  position: fixed;
+  inset: 0;
+}
+.thought-modal .thought-modal__card-wrap {
+  width: 100%;
+  max-width: 684px;
+  position: relative;
+}
+@media (max-width: 699px) {
+  .thought-modal .thought-modal__card-wrap { max-width: 100%; }
+}
+.thought-modal .thought-modal__close {
+  z-index: 3;
+  background: rgba(99,99,94,0.1);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  width: 36px;
+  height: 36px;
+  color: var(--text-color);
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s;
+  display: flex;
+  position: absolute;
+  top: -16px;
+  right: -16px;
+}
+.thought-modal .thought-modal__close:hover {
+  background: rgba(99,99,94,0.2);
+}
+.thought-modal .thought-modal__drag-handle {
+  cursor: grab;
+  touch-action: none;
+  justify-content: center;
+  padding: 1.2rem 0 0;
+  display: flex;
+}
+.thought-modal .thought-modal__drag-handle:active { cursor: grabbing; }
+.thought-modal .thought-modal__drag-line {
+  background: rgba(99,99,94,0.3);
+  border-radius: 2px;
+  width: 48px;
+  height: 4px;
+}
+.thought-modal .thought-modal__scroll {
+  z-index: 2;
+  overscroll-behavior: contain;
+  cursor: zoom-out;
+  scrollbar-width: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden auto;
+}
+.thought-modal .thought-modal__scroll::-webkit-scrollbar { display: none; }
+.thought-modal .thought-modal__positioner {
+  width: 100%;
+  min-height: 100%;
+  padding: 10vh 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+@media (max-width: 699px) {
+  .thought-modal .thought-modal__positioner {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+.thought-modal .thought-modal__card {
+  cursor: default;
+  background: var(--bg-color, #fff);
+  border-radius: 24px;
+  padding: 0 2.4rem;
+}
+@media (max-width: 699px) {
+  .thought-modal .thought-modal__card {
+    border-radius: 24px 24px 0 0;
+    padding: 0 2rem;
+  }
+}
+.thought-modal .thought-modal__image {
+  aspect-ratio: 3 / 2;
+  background: rgba(99,99,94,0.1);
+  border-radius: 12px;
+  align-items: flex-end;
+  margin-top: 1.2rem;
+  margin-left: -2.4rem;
+  margin-right: -2.4rem;
+  padding: 1.6rem 2rem;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 699px) {
+  .thought-modal .thought-modal__image {
+    margin-left: -2rem;
+    margin-right: -2rem;
+  }
+}
+@media (min-width: 700px) {
+  .thought-modal .thought-modal__image { margin-top: 1.6rem; }
+}
+.thought-modal .thought-modal__image picture { position: absolute; inset: 0; }
+.thought-modal .thought-modal__image picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+.thought-modal .thought-modal__image-overlay {
+  pointer-events: none;
+  background: linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%);
+  position: absolute;
+  inset: 0;
+}
+.thought-modal .thought-modal__image-title {
+  z-index: 1;
+  color: #fff;
+  position: relative;
+}
+.thought-modal .thought-modal__title { margin: 0; }
+.thought-modal .thought-modal__body {
+  flex-direction: column;
+  gap: 4rem;
+  margin-bottom: 6rem;
+  padding-bottom: 6rem;
+  display: flex;
+  overflow: hidden;
+}
+.thought-modal .thought-modal__body .thought-modal__meta {
+  border-bottom: 1px solid var(--accent-color);
+  padding: 4rem 0;
+}
+.thought-modal .thought-modal__body .thought-modal__meta h2 {
+  color: var(--text-color);
+  font-size: 2.4rem;
+  font-weight: 425;
+}
+.thought-modal .thought-modal__body .thought-modal__meta span { color: var(--accent-color); }
+.thought-modal .thought-modal__body h3,
+.thought-modal .thought-modal__body h4 {
+  color: var(--text-color);
+  margin-top: 4em;
+  margin-bottom: 0.5em;
+  font-weight: 425;
+}
+.thought-modal .thought-modal__body-inner p {
+  color: var(--text-color);
+  margin-bottom: 1em;
+  line-height: 1.6;
+}
+.thought-modal .thought-modal__body-inner p:last-child { margin-bottom: 0; }
+.thought-modal .thought-modal__body-inner a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+.thought-modal .thought-modal__body-inner strong { font-weight: 600; }
+
+/* ── Footer ── */
+.footer {
+  pointer-events: none;
+  grid-column: 1 / -1;
+  width: 100vw;
+  height: 50vh;
+  margin-left: calc(50% - 50vw);
+  position: relative;
+  overflow: hidden;
+}
+.footer__canvas {
+  touch-action: pan-y;
+  position: absolute;
+  inset: 0;
+  pointer-events: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ── Entrance animation helpers ── */
+.enter-init {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(8px);
+}
+.enter-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Responsive edge cases ── */
+@media (max-width: 699px) {
+  .thought-modal .thought-modal__close { margin-right: 0; position: fixed; top: 2rem; right: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid">
+  <div class="subgrid app">
+
+    <!-- Nav -->
+    <nav class="nav enter-init">
+      <h1>Olivier Carignan</h1>
+      <h2>Designer, Engineer &amp; Founder</h2>
+    </nav>
+
+    <main class="home">
+      <!-- Intro -->
+      <p class="enter-init">I work across interfaces and brand to create holistic systems and experiences that intuitively become an extension of oneself. I believe in ideas over opinions and exploring one hundred ideas to find the right one.</p>
+      <p class="enter-init">I am driven by curiosity and strive for a high level of craftsmanship in my work.</p>
+      <p class="enter-init">Co-Founder &amp; Product Lead at <a href="https://brunch.work" target="_blank" rel="noopener noreferrer">Brunch</a></p>
+
+      <!-- Slider -->
+      <div class="slider">
+        <div class="slider__track" tabindex="-1" id="sliderTrack">
+          <div class="slider__item slider__item--active" role="button" tabindex="0" aria-label="Rattle" data-title="Rattle" data-cat="Web Design &amp; Engineering" data-ar="landscape" data-full="https://picsum.photos/seed/rattle/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/rattle/680/453" alt="Rattle" draggable="false" loading="eager">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Selene Dreams" data-title="Selene Dreams" data-cat="Identity &amp; Web" data-ar="landscape" data-full="https://picsum.photos/seed/selene/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/selene/680/453" alt="Selene Dreams" draggable="false" loading="eager">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Urban Silence" data-title="Urban Silence" data-cat="Photography Series · Editorial" data-ar="portrait" data-full="https://picsum.photos/seed/urbansilence/800/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/urbansilence/400/533" alt="Urban Silence" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Poetry.LA" data-title="Poetry.LA" data-cat="Design &amp; Engineering" data-ar="landscape" data-full="https://picsum.photos/seed/poetry/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/poetry/680/453" alt="Poetry.LA" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Form & Void" data-title="Form &amp; Void" data-cat="Sculpture Exhibition · Art Direction" data-ar="portrait" data-full="https://picsum.photos/seed/formvoid/800/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/formvoid/400/533" alt="Form & Void" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="NOT AN AD" data-title="NOT AN AD" data-cat="Identity &amp; Web" data-ar="landscape" data-full="https://picsum.photos/seed/notanad/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/notanad/680/453" alt="NOT AN AD" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Waveform" data-title="Waveform" data-cat="Music Visualizer · Generative Art" data-ar="landscape" data-full="https://picsum.photos/seed/waveform/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/waveform/680/453" alt="Waveform" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="ARC Health" data-title="ARC Health" data-cat="Product Design" data-ar="landscape" data-full="https://picsum.photos/seed/archealth/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/archealth/680/453" alt="ARC Health" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Thread" data-title="Thread" data-cat="Fashion Editorial · Creative Direction" data-ar="portrait" data-full="https://picsum.photos/seed/thread/800/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/thread/400/533" alt="Thread" draggable="false" loading="lazy">
+            </div>
+          </div>
+          <div class="slider__item" role="button" tabindex="0" aria-label="Pale Blue Dot" data-title="Pale Blue Dot" data-cat="Documentary Film · Post-Production" data-ar="landscape" data-full="https://picsum.photos/seed/paleblue/1600/1067">
+            <div class="slider__item-inner">
+              <img src="https://picsum.photos/seed/paleblue/680/453" alt="Pale Blue Dot" draggable="false" loading="lazy">
+            </div>
+          </div>
+        </div>
+        <div class="slider__meta enter-init" id="sliderMeta">
+          <div class="slider__meta-inner" id="sliderMetaInner">
+            <h3>Rattle</h3>
+            <p>Web Design &amp; Engineering</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Clients -->
+      <div class="clients enter-init">
+        <h3>Selected Clients</h3>
+        <p>Apple, WØRKS, Evenko, RTINGS.com, ARC Health, LG2, POP Montréal, Rounder</p>
+      </div>
+
+      <!-- Thoughts -->
+      <div class="thoughts">
+        <h3 class="thoughts__title enter-init" id="thoughtsTitle">Thoughts</h3>
+        <div class="thoughts__track" id="thoughtsTrack">
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Friction as Material" data-thought="0">
+              <div class="card-bg">
+                <img src="https://picsum.photos/seed/thoughtrock/600/750" alt="Friction as Material" draggable="false" loading="eager">
+              </div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Friction as Material</h4><span>March 2026</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c0)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c0"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="The Shape of Time" data-thought="1">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought2/600/750" alt="The Shape of Time" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>The Shape of Time</h4><span>February 2026</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c1)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c1"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Designing for Memory" data-thought="2">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought3/600/750" alt="Designing for Memory" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Designing for Memory</h4><span>January 2026</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c2)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c2"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Between Pixels and Print" data-thought="3">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought4/600/750" alt="Between Pixels and Print" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Between Pixels and Print</h4><span>December 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c3)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c3"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="The Quiet Interface" data-thought="4">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought5/600/750" alt="The Quiet Interface" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>The Quiet Interface</h4><span>November 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c4)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c4"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Systems of Care" data-thought="5">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought6/600/750" alt="Systems of Care" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Systems of Care</h4><span>October 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c5)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c5"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Against Efficiency" data-thought="6">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought7/600/750" alt="Against Efficiency" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Against Efficiency</h4><span>September 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c6)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c6"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="The Poetics of Code" data-thought="7">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought8/600/750" alt="The Poetics of Code" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>The Poetics of Code</h4><span>August 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c7)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c7"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Material Honesty" data-thought="8">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought9/600/750" alt="Material Honesty" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Material Honesty</h4><span>July 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c8)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c8"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Rhythm and Repetition" data-thought="9">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought10/600/750" alt="Rhythm and Repetition" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Rhythm and Repetition</h4><span>June 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c9)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c9"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+          <div class="thoughts__item enter-init">
+            <div class="thoughts__card" role="button" tabindex="0" aria-label="Learning to See" data-thought="10">
+              <div class="card-bg"><img src="https://picsum.photos/seed/thought11/600/750" alt="Learning to See" draggable="false" loading="lazy"></div>
+              <div class="thoughts__card-overlay"></div>
+              <div class="meta">
+                <div class="meta__text"><h4>Learning to See</h4><span>May 2025</span></div>
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><g clip-path="url(#c10)"><path d="M4 13.5455V9.00004H5.5V12.1819H9V13.5455H4ZM12.5 9.00004V5.81823H9V4.45459H14V9.00004H12.5Z" fill="#FAFAFA"/></g><defs><clipPath id="c10"><rect width="10" height="10" fill="white" transform="translate(4 4)"/></clipPath></defs></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connect -->
+      <div class="connect enter-init">
+        <h3>Connect</h3>
+        <ul>
+          <li>
+            <button type="button" class="icon-link" id="emailBtn" onclick="copyEmail()">
+              <span class="icon-link__icon">
+                <span class="icon--copy">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_copy)">
+                      <path d="M10 4H5C4.44772 4 4 4.44772 4 5V10C4 10.5523 4.44772 11 5 11H10C10.5523 11 11 10.5523 11 10V5C11 4.44772 10.5523 4 10 4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M2 8C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                    <defs><clipPath id="clip0_copy"><rect width="12" height="12" fill="white"/></clipPath></defs>
+                  </svg>
+                </span>
+                <span class="icon--check">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+              </span>
+              <span class="icon-link__text">Email</span>
+            </button>
+          </li>
+          <li>
+            <a href="https://github.com/olicarignan" class="icon-link" target="_blank" rel="noopener noreferrer">
+              <span class="icon-link__icon">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.88636 10.7159L2 9.82955L8.59091 3.22727H3.5L3.51136 2H10.7045V9.20455H9.46591L9.47727 4.11364L2.88636 10.7159Z" fill="#131718"/>
+                </svg>
+              </span>
+              <span class="icon-link__text">Github</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.are.na/olivier-carignan/" class="icon-link" target="_blank" rel="noopener noreferrer">
+              <span class="icon-link__icon">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.88636 10.7159L2 9.82955L8.59091 3.22727H3.5L3.51136 2H10.7045V9.20455H9.46591L9.47727 4.11364L2.88636 10.7159Z" fill="#131718"/>
+                </svg>
+              </span>
+              <span class="icon-link__text">Are.na</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/olivier-carignan/" class="icon-link" target="_blank" rel="noopener noreferrer">
+              <span class="icon-link__icon">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.88636 10.7159L2 9.82955L8.59091 3.22727H3.5L3.51136 2H10.7045V9.20455H9.46591L9.47727 4.11364L2.88636 10.7159Z" fill="#131718"/>
+                </svg>
+              </span>
+              <span class="icon-link__text">LinkedIn</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer__canvas" id="footerCanvas">
+        <canvas id="footerCanvasEl"></canvas>
+      </div>
+    </footer>
+
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox__backdrop"></div>
+  <button class="lightbox__close" id="lightboxClose">Close</button>
+  <div class="lightbox__track" id="lightboxTrack"></div>
+</div>
+
+<!-- Thought Modal -->
+<div class="thought-modal" id="thoughtModal">
+  <div class="thought-modal__backdrop"></div>
+  <div class="thought-modal__scroll" id="thoughtScroll">
+    <div class="thought-modal__positioner" id="thoughtPositioner">
+      <div class="thought-modal__card-wrap">
+        <button class="thought-modal__close" id="thoughtModalClose" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="thought-modal__card" id="thoughtCard">
+          <div class="thought-modal__drag-handle" id="thoughtDragHandle">
+            <div class="thought-modal__drag-line"></div>
+          </div>
+          <div class="thought-modal__image" id="thoughtModalImage">
+            <picture><img src="" alt="" id="thoughtModalImg"></picture>
+            <div class="thought-modal__image-overlay"></div>
+            <div class="thought-modal__image-title"><h4 id="thoughtModalImgTitle"></h4></div>
+          </div>
+          <div class="thought-modal__body">
+            <div class="thought-modal__meta">
+              <h2 id="thoughtModalTitle"></h2>
+              <span id="thoughtModalDate"></span>
+            </div>
+            <div class="thought-modal__body-inner" id="thoughtModalBody"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Content alignment: calculate left offset for full-bleed elements ──
+function getContentPaddingLeft() {
+  // Measure the left edge of the first <p> in .home, which sits in the content column
+  const ref = document.querySelector('.home p');
+  if (ref) {
+    return ref.getBoundingClientRect().left;
+  }
+  // Fallback: calculate from grid
+  const vw = window.innerWidth;
+  const isDesktop = vw >= 700;
+  const padding = 32; // 3.2rem at 62.5% font size = 32px... wait, html 62.5% = 10px base, 3.2rem = 32px
+  if (isDesktop) {
+    // Desktop: subgrid has 6 columns, content in columns 2/-2
+    // Grid max-width: 604px + 64px(padding) + 16px(gaps) = 684px
+    const gridWidth = Math.min(604 + 64 + 16, vw);
+    const marginLeft = (vw - gridWidth) / 2;
+    // Content starts at: margin-left + padding-column + 0 (since home > p is grid-column: 2/-2)
+    // On desktop, home > p is grid-column: 2/-2 of subgrid, which starts after first padding column
+    return marginLeft + padding;
+  } else {
+    // Mobile: home > p is grid-column: 1/-1, subgrid is 2/-2
+    const gridWidth = Math.min(420 + 64 + 16, vw);
+    const marginLeft = (vw - gridWidth) / 2;
+    return marginLeft + padding;
+  }
+}
+
+function applyContentPadding() {
+  const pad = getContentPaddingLeft();
+  const track = document.getElementById('sliderTrack');
+  const meta = document.getElementById('sliderMeta');
+  const thoughtsTitle = document.getElementById('thoughtsTitle');
+  const thoughtsTrack = document.getElementById('thoughtsTrack');
+
+  if (track) {
+    track.style.paddingLeft = pad + 'px';
+    track.style.paddingRight = pad + 'px';
+    track.style.scrollPaddingLeft = pad + 'px';
+  }
+  if (meta) {
+    meta.style.paddingLeft = pad + 'px';
+  }
+  if (thoughtsTitle) {
+    thoughtsTitle.style.paddingLeft = pad + 'px';
+  }
+  if (thoughtsTrack) {
+    thoughtsTrack.style.paddingLeft = pad + 'px';
+    thoughtsTrack.style.paddingRight = pad + 'px';
+    thoughtsTrack.style.scrollPaddingLeft = pad + 'px';
+  }
+}
+
+// ── Entrance animations ──
+function initEntrances() {
+  const els = document.querySelectorAll('.enter-init');
+  els.forEach((el, i) => {
+    const delay = Math.min(i * 80, 1200);
+    setTimeout(() => {
+      el.classList.add('enter-visible');
+    }, delay);
+  });
+
+  // Slider items always visible (they don't have enter-init)
+  document.querySelectorAll('.slider__item').forEach(el => {
+    el.style.opacity = '1';
+    el.style.filter = 'none';
+    el.style.transform = 'none';
+  });
+}
+
+// ── Slider ──
+const track = document.getElementById('sliderTrack');
+const items = track.querySelectorAll('.slider__item');
+const sliderMetaInner = document.getElementById('sliderMetaInner');
+const lightbox = document.getElementById('lightbox');
+const lightboxTrack = document.getElementById('lightboxTrack');
+const lightboxClose = document.getElementById('lightboxClose');
+
+let activeIndex = 0;
+let isDragging = false;
+let metaTimeout;
+
+// Set thought card widths (slider widths handled by CSS data-ar selectors)
+function setItemWidths() {
+  const vw = window.innerWidth;
+  const thoughtWidth = vw >= 700 ? 300 : Math.round(vw * 0.75);
+  document.querySelectorAll('.thoughts__item').forEach(item => {
+    item.style.width = thoughtWidth + 'px';
+  });
+}
+
+// Get item left position considering padding
+function getItemLeft(item) {
+  const style = getComputedStyle(track);
+  const padLeft = parseFloat(style.paddingLeft) || 0;
+  return item.offsetLeft - padLeft;
+}
+
+// Active item dimming (matches original: scale(1 - 0.05 * ratio), brightness(1 - 0.15 * ratio))
+function updateActiveStates() {
+  const trackRect = track.getBoundingClientRect();
+  const centerX = trackRect.left + trackRect.width * 0.4;
+
+  items.forEach((item, i) => {
+    const rect = item.getBoundingClientRect();
+    const itemCenter = rect.left + rect.width / 2;
+    const dist = Math.abs(itemCenter - centerX);
+    const maxDist = window.innerWidth * 0.5;
+    const ratio = Math.min(1, Math.max(0, dist / maxDist));
+    const inner = item.querySelector('.slider__item-inner');
+    if (inner && !isDragging) {
+      inner.style.transform = `scale(${1 - 0.05 * ratio})`;
+      inner.style.filter = `brightness(${1 - 0.15 * ratio})`;
+    }
+  });
+}
+
+let dimTimeout;
+function debouncedUpdateActiveStates() {
+  clearTimeout(dimTimeout);
+  dimTimeout = setTimeout(updateActiveStates, 50);
+}
+
+function resetItemStyles() {
+  items.forEach(item => {
+    const inner = item.querySelector('.slider__item-inner');
+    if (inner) {
+      inner.style.transform = '';
+      inner.style.filter = '';
+    }
+  });
+}
+
+// Find which item is most visible
+function findActiveIndex() {
+  const trackRect = track.getBoundingClientRect();
+  const centerX = trackRect.left + trackRect.width * 0.35;
+  let bestIdx = 0;
+  let bestDist = Infinity;
+  items.forEach((item, i) => {
+    const rect = item.getBoundingClientRect();
+    const itemCenter = rect.left + rect.width / 2;
+    const dist = Math.abs(itemCenter - centerX);
+    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+  });
+  return bestIdx;
+}
+
+function scrollToItem(index, smooth) {
+  if (index < 0) index = 0;
+  if (index >= items.length) index = items.length - 1;
+  activeIndex = index;
+  track.scrollTo({ left: getItemLeft(items[index]), behavior: smooth ? 'smooth' : 'instant' });
+  updateMeta(index);
+  updateActiveItemClass(index);
+}
+
+function updateMeta(idx) {
+  const item = items[idx];
+  const h3 = sliderMetaInner.querySelector('h3');
+  const p = sliderMetaInner.querySelector('p');
+
+  h3.style.opacity = '0';
+  h3.style.transform = 'translateY(4px)';
+  p.style.opacity = '0';
+  p.style.transform = 'translateY(4px)';
+
+  clearTimeout(metaTimeout);
+  metaTimeout = setTimeout(() => {
+    h3.textContent = item.dataset.title;
+    p.textContent = item.dataset.cat;
+    h3.style.opacity = '1';
+    h3.style.transform = 'translateY(0)';
+    p.style.opacity = '1';
+    p.style.transform = 'translateY(0)';
+  }, 150);
+}
+
+function updateActiveItemClass(idx) {
+  items.forEach((item, i) => {
+    item.classList.toggle('slider__item--active', i === idx);
+  });
+}
+
+// Transitions on meta
+sliderMetaInner.querySelector('h3').style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+sliderMetaInner.querySelector('p').style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+// IntersectionObserver for meta
+const observer = new IntersectionObserver((entries) => {
+  let best = entries[0];
+  for (const e of entries) {
+    if (e.intersectionRatio > best.intersectionRatio) best = e;
+  }
+  if (best.intersectionRatio > 0.5) {
+    const idx = Array.from(items).indexOf(best.target);
+    if (idx >= 0 && idx !== activeIndex) {
+      activeIndex = idx;
+      updateMeta(idx);
+      updateActiveItemClass(idx);
+    }
+  }
+}, { root: track, threshold: [0.5, 0.7, 0.9] });
+
+items.forEach(item => observer.observe(item));
+
+// ── Drag-to-scroll with momentum (matches original) ──
+let dragState = { dragging: false, startX: 0, scrollLeft: 0, prevX: 0, prevTime: 0, velocity: 0, moved: 0, target: null };
+let momentumRAF = null;
+
+function stopMomentum() {
+  if (momentumRAF) { cancelAnimationFrame(momentumRAF); momentumRAF = null; }
+}
+
+function applyMomentum(decay, startTime) {
+  stopMomentum();
+  momentumRAF = requestAnimationFrame((timestamp) => {
+    const dt = (timestamp - startTime) / 1000;
+    const vel = dragState.velocity * Math.pow(decay, dt * 60);
+    if (Math.abs(vel) > 30) {
+      track.scrollLeft -= vel * 0.016;
+      dragState.velocity = vel;
+      applyMomentum(decay * 0.95, timestamp);
+    } else {
+      track.style.scrollSnapType = 'x mandatory';
+      momentumRAF = null;
+      const idx = findActiveIndex();
+      activeIndex = idx;
+      updateMeta(idx);
+      updateActiveItemClass(idx);
+      updateActiveStates();
+    }
+  });
+}
+
+track.addEventListener('pointerdown', (e) => {
+  if (e.pointerType === 'touch') return;
+  stopMomentum();
+  // Save target before pointer capture redirects it
+  const clickTarget = e.target.closest('.slider__item');
+  dragState = {
+    dragging: true,
+    startX: e.clientX,
+    scrollLeft: track.scrollLeft,
+    prevX: e.clientX,
+    prevTime: Date.now(),
+    velocity: 0,
+    moved: 0,
+    target: clickTarget
+  };
+  track.style.scrollSnapType = 'none';
+  resetItemStyles();
+  track.setPointerCapture(e.pointerId);
+});
+
+track.addEventListener('pointermove', (e) => {
+  if (!dragState.dragging) return;
+  const dx = e.clientX - dragState.startX;
+  dragState.moved = Math.abs(dx);
+  const now = Date.now();
+  const dt = now - dragState.prevTime;
+  if (dt > 0) {
+    const instantVel = (e.clientX - dragState.prevX) / dt;
+    dragState.velocity = dragState.velocity * 0.6 + instantVel * 0.4;
+  }
+  dragState.prevX = e.clientX;
+  dragState.prevTime = now;
+  track.scrollLeft = dragState.scrollLeft - dx;
+});
+
+track.addEventListener('pointerup', (e) => {
+  if (!dragState.dragging) return;
+  dragState.dragging = false;
+  isDragging = false;
+  track.releasePointerCapture(e.pointerId);
+
+  if (dragState.moved < 5) {
+    track.style.scrollSnapType = 'x mandatory';
+    updateActiveStates();
+
+    // Click: active (centered) item → lightbox, peeked side items → scroll to them
+    const target = dragState.target;
+    if (target) {
+      const idx = Array.from(items).indexOf(target);
+      if (idx >= 0) {
+        if (idx === activeIndex) {
+          openLightbox(idx);
+        } else {
+          scrollToItem(idx, true);
+        }
+      }
+    }
+    return;
+  }
+
+  const decay = 0.92;
+  applyMomentum(decay, performance.now());
+});
+
+track.addEventListener('pointercancel', () => {
+  if (dragState.dragging) {
+    dragState.dragging = false;
+    isDragging = false;
+    track.style.scrollSnapType = 'x mandatory';
+    updateActiveStates();
+  }
+});
+
+track.addEventListener('scroll', () => {
+  if (!dragState.dragging) {
+    debouncedUpdateActiveStates();
+    // Keep activeIndex in sync during scrolling
+    const best = findActiveIndex();
+    if (best !== activeIndex) {
+      activeIndex = best;
+      updateMeta(best);
+      updateActiveItemClass(best);
+    }
+  }
+}, { passive: true });
+
+
+// Keyboard: arrow keys scroll slider
+track.addEventListener('keydown', (e) => {
+  if (lightbox.classList.contains('lightbox--open')) return;
+  if (e.key === 'ArrowLeft') { e.preventDefault(); scrollToItem(activeIndex - 1, true); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); scrollToItem(activeIndex + 1, true); }
+});
+track.setAttribute('tabindex', '0');
+
+// ── Lightbox ──
+function buildLightboxItems() {
+  lightboxTrack.innerHTML = '';
+  items.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'lightbox__item';
+    if (i === 0) div.classList.add('lightbox__item--active');
+    div.setAttribute('role', 'button');
+    div.setAttribute('tabindex', '0');
+    div.setAttribute('aria-label', item.dataset.title);
+    div.dataset.index = i;
+    div.innerHTML = `
+      <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img" loading="lazy" draggable="false">
+      <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img--high" loading="lazy" draggable="false">
+    `;
+    lightboxTrack.appendChild(div);
+  });
+}
+
+let lightboxIndex = 0;
+
+function updateLightboxCursors() {
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+  lbItems.forEach((item, i) => {
+    if (i < lightboxIndex) {
+      item.style.cursor = 'w-resize';
+    } else if (i > lightboxIndex) {
+      item.style.cursor = 'e-resize';
+    } else {
+      item.style.cursor = 'pointer';
+    }
+  });
+}
+
+function openLightbox(index) {
+  lightboxIndex = index;
+  scrollToItem(index, false);
+  buildLightboxItems();
+
+  // Set active item
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+  lbItems.forEach((item, i) => {
+    item.classList.toggle('lightbox__item--active', i === index);
+    if (i === index) {
+      // Load high-res
+      const highImg = item.querySelector('.lightbox__img--high');
+      if (highImg) {
+        highImg.onload = () => highImg.classList.add('lightbox__img--ready');
+      }
+    }
+  });
+
+  lightbox.classList.add('lightbox--open');
+  document.body.style.overflow = 'hidden';
+  updateLightboxCursors();
+
+  // Reveal animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      lightbox.classList.add('lightbox--revealed');
+      // Scroll to active
+      const target = lbItems[index];
+      if (target) {
+        lightboxTrack.scrollTo({
+          left: target.offsetLeft - lightboxTrack.offsetWidth / 2 + target.offsetWidth / 2,
+          behavior: 'instant'
+        });
+      }
+    });
+  });
+}
+
+function closeLightbox() {
+  lightbox.classList.add('lightbox--closing');
+  lightbox.classList.remove('lightbox--revealed');
+  setTimeout(() => {
+    lightbox.classList.remove('lightbox--closing', 'lightbox--open');
+    lightboxTrack.innerHTML = '';
+    document.body.style.overflow = '';
+  }, 450);
+}
+
+lightboxClose.addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeLightbox();
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox || e.target.classList.contains('lightbox__backdrop')) {
+    closeLightbox();
+  }
+});
+
+// Lightbox track: click on item → advance
+lightboxTrack.addEventListener('click', (e) => {
+  const item = e.target.closest('.lightbox__item');
+  if (!item) return;
+  const idx = parseInt(item.dataset.index);
+  if (idx === lightboxIndex) {
+    closeLightbox();
+  } else {
+    // Navigate to that item
+    lightboxIndex = idx;
+    const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === idx));
+    updateLightboxCursors();
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    scrollToItem(idx, false);
+  }
+});
+
+// Lightbox scroll snap → update active
+lightboxTrack.addEventListener('scroll', () => {
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+  const trackCenter = lightboxTrack.getBoundingClientRect().left + lightboxTrack.offsetWidth / 2;
+  let bestIdx = lightboxIndex;
+  let bestDist = Infinity;
+  lbItems.forEach((item, i) => {
+    const rect = item.getBoundingClientRect();
+    const itemCenter = rect.left + rect.width / 2;
+    const dist = Math.abs(itemCenter - trackCenter);
+    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+  });
+  if (bestIdx !== lightboxIndex) {
+    lightboxIndex = bestIdx;
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === bestIdx));
+    updateLightboxCursors();
+    scrollToItem(bestIdx, false);
+  }
+}, { passive: true });
+
+// Keyboard: lightbox
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('lightbox--open')) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeLightbox(); return; }
+
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    lightboxIndex = Math.max(0, lightboxIndex - 1);
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === lightboxIndex));
+    updateLightboxCursors();
+    lbItems[lightboxIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    scrollToItem(lightboxIndex, false);
+  }
+  if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    lightboxIndex = Math.min(lbItems.length - 1, lightboxIndex + 1);
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === lightboxIndex));
+    updateLightboxCursors();
+    lbItems[lightboxIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    scrollToItem(lightboxIndex, false);
+  }
+});
+
+// Touch swipe in lightbox
+let lbTouchStartX = 0;
+lightbox.addEventListener('touchstart', (e) => { lbTouchStartX = e.touches[0].clientX; }, { passive: true });
+lightbox.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - lbTouchStartX;
+  if (Math.abs(dx) > 60) {
+    const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+    lightboxIndex = dx > 0 ? Math.max(0, lightboxIndex - 1) : Math.min(lbItems.length - 1, lightboxIndex + 1);
+    lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === lightboxIndex));
+    updateLightboxCursors();
+    lbItems[lightboxIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    scrollToItem(lightboxIndex, false);
+  }
+});
+
+// ── Email copy ──
+function copyEmail() {
+  const btn = document.getElementById('emailBtn');
+  navigator.clipboard.writeText('hello@oliviercarignan.com').then(() => {
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.classList.add('copied-out');
+      setTimeout(() => btn.classList.remove('copied-out'), 500);
+    }, 2000);
+  });
+}
+
+// ── Thought Modal ──
+const thoughtModal = document.getElementById('thoughtModal');
+const thoughtScroll = document.getElementById('thoughtScroll');
+const thoughtModalClose = document.getElementById('thoughtModalClose');
+const thoughtDragHandle = document.getElementById('thoughtDragHandle');
+const thoughtModalImg = document.getElementById('thoughtModalImg');
+const thoughtModalImgTitle = document.getElementById('thoughtModalImgTitle');
+const thoughtModalTitle = document.getElementById('thoughtModalTitle');
+const thoughtModalDate = document.getElementById('thoughtModalDate');
+const thoughtModalBody = document.getElementById('thoughtModalBody');
+
+const thoughtData = [{
+  title: 'Friction as Material',
+  date: 'March 2026',
+  image: 'https://picsum.photos/seed/thoughtrock/1200/800',
+  body: `<p>Modern design is a practice of removal. Every heuristic we adopt points us in the same direction: make it smoother, make it faster, make it disappear. The best interface is the one nobody notices, the one that doesn't make you think. We've built the entire discipline around the systematic elimination of friction. But friction is not synonymous with bad design and the instinct to conflate them is inherently wrong.</p><h3>What is Friction?</h3><p>Friction is resistance, the kind that comes from contact. We experience friction between bodies, between hands and materials, between intention and outcome. It engages our senses and our emotions; the more we encounter it, the more we engage and care. Friction doesn't imply conflict, and it isn't broken technology. We can instead think of it as the texture of being alive among other living things.</p><h3>The Orthodoxy</h3><p>The instinct to eliminate friction began as reasonable, early digital interfaces were hostile and hard to navigate. <em>Make it easier</em> was once the right mandate, but <em>Don't make me think</em> stopped being a starting point and became the entire philosophy. Capitalism reinforced this conviction; the attention economy calls for it. Every pause is a possible exit and a thought becomes a risk to conversion.</p><h3>A Frictionless World</h3><p>What we have now are products that look and behave identically. Interfaces have been stripped of any quality that might slow someone down, which also means stripped of anything that might make them memorable. A kind of designed amnesia, you can move through an entire day of digital interactions and retain almost nothing.</p><h3>Friction as Material</h3><p>Friction is a material. Like any material, it has properties you can feel, and the decision to use it or strip it away is a design decision that reveals what you think of the person on the other side.</p><p>The question for anyone designing, building, or shaping how people interact with the world: <em>What are you asking of the people you're designing for?</em> If the answer is nothing, don't be surprised when that's what they feel.</p>`
+},{
+  title: 'The Shape of Time',
+  date: 'February 2026',
+  image: 'https://picsum.photos/seed/thought2/1200/800',
+  body: `<p>Time in digital products is curiously flat. Everything updates in real time, every notification demands now, every interface races toward instantaneity. But time as humans experience it is textured — it stretches, compresses, pools in certain moments and rushes through others.</p><h3>Temporal Design</h3><p>When we design interfaces, we are designing experiences that unfold in time. A well-paced onboarding sequence, a thoughtfully delayed response, a deliberately slow transition — these aren't bugs, they're features that acknowledge the user's temporal experience.</p><h3>Beyond Speed</h3><p>The obsession with performance and speed has paradoxically made our digital experiences feel more uniform. When everything is fast, nothing feels fast. It's the contrast between fast and slow that creates rhythm, and rhythm is what makes an experience memorable.</p>`
+},{
+  title: 'Designing for Memory',
+  date: 'January 2026',
+  image: 'https://picsum.photos/seed/thought3/1200/800',
+  body: `<p>How much of what you did yesterday in a digital product do you remember? For most of us, the answer is almost nothing. Digital experiences have become so frictionless that they slide through our minds without leaving a trace.</p><h3>Memorable Interactions</h3><p>Memory is not a recording — it's a reconstruction. The experiences we remember are the ones that demanded something of us: attention, effort, emotion. By removing all resistance from our interfaces, we may be removing the very conditions that make an experience stick.</p><h3>Designing for Recall</h3><p>What would it mean to design for memory rather than for efficiency? It might mean creating moments of deliberate pause, introducing surprising details, or building interfaces that change slightly each time you visit — rewarding attention and punishing autopilot.</p>`
+},{
+  title: 'Between Pixels and Print',
+  date: 'December 2025',
+  image: 'https://picsum.photos/seed/thought4/1200/800',
+  body: `<p>The boundary between screen and paper has never been thinner. As digital design matures, it increasingly borrows from the centuries-old traditions of print, while print design absorbs the fluid logic of the screen.</p><h3>Shared Principles</h3><p>Grid systems, typographic hierarchy, the use of negative space — these weren't invented for the web. They emerged from print and were adapted. But screens impose different constraints: variable viewport sizes, user interaction, animation, and accessibility requirements that have no print equivalent.</p><h3>A Convergent Practice</h3><p>The future of visual design lies not in choosing between pixels and print, but in understanding how each medium shapes meaning. A poster and a landing page may share the same brand language, but they speak it in different dialects.</p>`
+},{
+  title: 'The Quiet Interface',
+  date: 'November 2025',
+  image: 'https://picsum.photos/seed/thought5/1200/800',
+  body: `<p>The loudest interface in any room dominates attention. Notifications, badges, popups, autoplaying videos — each one is a demand, a little shout. Collectively, they create an environment of constant interruption that we've somehow normalized.</p><h3>Designing for Calm</h3><p>A quiet interface doesn't mean a minimal one. It means an interface that respects the user's attention as a finite resource. It speaks when spoken to. It doesn't interrupt. It trusts the user to explore without constant hand-holding.</p><h3>The Ethics of Attention</h3><p>Every notification we design is a choice to interrupt someone's life. The question isn't just "is this useful?" but "is this worth the interruption?" Most of the time, the honest answer is no.</p>`
+},{
+  title: 'Systems of Care',
+  date: 'October 2025',
+  image: 'https://picsum.photos/seed/thought6/1200/800',
+  body: `<p>Design systems are typically described in technical terms: components, tokens, patterns, documentation. But the best design systems I've encountered are built on something softer — a culture of care for the people who use them.</p><h3>Care as Infrastructure</h3><p>A button component isn't just a rectangle with a label. It's a promise about how interaction will feel across an entire product. Getting it right means caring about edge cases, about loading states, about the person who will press it while distracted or anxious.</p><h3>Maintenance as Design</h3><p>Systems of care don't end at launch. They continue through maintenance, iteration, and eventually graceful deprecation. Designing with care means designing for the full lifecycle of what we build.</p>`
+},{
+  title: 'Against Efficiency',
+  date: 'September 2025',
+  image: 'https://picsum.photos/seed/thought7/1200/800',
+  body: `<p>Efficiency is the default metric of good design. Faster checkout, shorter forms, fewer clicks. But optimizing for efficiency alone produces experiences that are fast and forgettable — digital fast food that nourishes nothing.</p><h3>The Efficiency Trap</h3><p>When every interaction is optimized for speed, we lose the spaces where meaning forms. A conversation, a moment of reflection, a difficult decision — these aren't efficient, but they're where the real value of an experience lives.</p><h3>Productive Inefficiency</h3><p>Some of the most valuable design decisions are deliberately inefficient. A confirmation dialog that asks you to type DELETE. A multi-step process that reveals complexity rather than hiding it. These aren't flaws — they're features that respect the gravity of what's being done.</p>`
+},{
+  title: 'The Poetics of Code',
+  date: 'August 2025',
+  image: 'https://picsum.photos/seed/thought8/1200/800',
+  body: `<p>Code is usually discussed in terms of correctness — does it work, is it fast, is it maintainable. But code is also a medium of expression. The way a codebase is structured, named, and organized reflects a worldview as much as a technical architecture.</p><h3>Code as Craft</h3><p>Well-written code has qualities we associate with other crafts: clarity, economy, elegance. It makes its intentions visible. It doesn't hide complexity but manages it gracefully. Reading it, you can feel the care that went into its construction.</p><h3>Naming as Poetry</h3><p>The names we give to functions, variables, and classes are the most visible expression of our thinking. A good name is a small act of empathy — it tells the next reader not just what something does, but why it exists.</p>`
+},{
+  title: 'Material Honesty',
+  date: 'July 2025',
+  image: 'https://picsum.photos/seed/thought9/1200/800',
+  body: `<p>Digital interfaces are inherently deceptive. A button on a screen isn't really a button — it's a simulation, a metaphor. We can make it look like anything: glass, metal, paper, light. This freedom is both the medium's greatest strength and its greatest temptation.</p><h3>Truth in Materials</h3><p>The modernist principle of material honesty — letting materials be what they are — has an uneasy relationship with digital design. There is no "natural" state for a pixel. But honesty can still guide us: being transparent about what's interactive, what's content, and what's decoration.</p><h3>Authentic Digital</h3><p>Rather than chasing skeuomorphic imitations of physical objects, we can embrace what screens do well: typography, animation, responsiveness, adaptability. The most honest digital design doesn't pretend to be something it's not.</p>`
+},{
+  title: 'Rhythm and Repetition',
+  date: 'June 2025',
+  image: 'https://picsum.photos/seed/thought10/1200/800',
+  body: `<p>Music and design share a deep structure. Both are organized around rhythm — the patterned alternation of tension and release, density and space, repetition and variation. A website has a tempo as surely as a song does.</p><h3>Visual Rhythm</h3><p>Consistent spacing, recurring elements, predictable patterns — these create the visual equivalent of a steady beat. But too much consistency becomes monotony. The designer, like the composer, must know when to break the pattern.</p><h3>Syncopation</h3><p>The most memorable moments in design, like in music, are often the ones that subvert expectation. An unexpected color, an asymmetric layout, a surprising interaction — these are visual syncopations that keep the experience alive.</p>`
+},{
+  title: 'Learning to See',
+  date: 'May 2025',
+  image: 'https://picsum.photos/seed/thought11/1200/800',
+  body: `<p>Design education focuses heavily on making — learning tools, mastering techniques, building a portfolio. But the most important skill a designer develops isn't making. It's seeing.</p><h3>Perception Before Production</h3><p>Before you can design anything, you have to see what's already there. The subtle alignment issues in a layout. The cultural assumptions embedded in an icon. The way light falls on a physical object and how that might translate to a screen. This kind of seeing isn't passive — it's an active, trained attention to detail.</p><h3>Seeing Systems</h3><p>Beyond individual details, designers learn to see systems. How components relate. How one change ripples through an entire product. How a brand's visual language creates expectations that shape every subsequent interaction. Systems thinking is seeing at scale.</p><h3>The Designer's Eye</h3><p>The designer's eye is a cultivated sensitivity. It notices kerning, hierarchy, rhythm, and proportion in the same way a sommelier notices notes in a wine. And like any cultivated skill, it requires practice, exposure, and a willingness to look more carefully than most people ever will.</p>`
+}];
+
+function openThoughtModal(index) {
+  const data = thoughtData[index];
+  thoughtModalImg.src = data.image;
+  thoughtModalImg.alt = data.title;
+  thoughtModalImgTitle.textContent = data.title;
+  thoughtModalTitle.textContent = data.title;
+  thoughtModalDate.textContent = data.date;
+  thoughtModalBody.innerHTML = data.body;
+  thoughtModal.classList.add('thought-modal--open');
+  document.body.style.overflow = 'hidden';
+  thoughtScroll.scrollTop = 0;
+}
+
+function closeThoughtModal() {
+  thoughtModal.classList.remove('thought-modal--open');
+  document.body.style.overflow = '';
+}
+
+thoughtModalClose.addEventListener('click', closeThoughtModal);
+thoughtModal.addEventListener('click', (e) => {
+  if (e.target.classList.contains('thought-modal__backdrop')) closeThoughtModal();
+});
+
+// Thought card click: active card → open modal, side cards → scroll to them
+const thoughtsTrackEl = document.getElementById('thoughtsTrack');
+const thoughtItems = thoughtsTrackEl ? thoughtsTrackEl.querySelectorAll('.thoughts__item') : [];
+
+function findActiveThoughtIndex() {
+  if (!thoughtsTrackEl) return 0;
+  const padLeft = parseFloat(getComputedStyle(thoughtsTrackEl).paddingLeft) || 0;
+  const snapPoint = thoughtsTrackEl.scrollLeft + padLeft;
+  let bestIdx = 0;
+  let bestDist = Infinity;
+  thoughtItems.forEach((item, i) => {
+    const dist = Math.abs(item.offsetLeft - snapPoint);
+    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+  });
+  return bestIdx;
+}
+
+document.querySelectorAll('.thoughts__card').forEach((card, i) => {
+  card.addEventListener('click', () => {
+    const activeIdx = findActiveThoughtIndex();
+    if (i === activeIdx) {
+      openThoughtModal(i);
+    } else if (thoughtItems[i]) {
+      thoughtItems[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    }
+  });
+});
+
+// Thought modal drag to close
+let thoughtDragY = 0;
+let thoughtDragging = false;
+let thoughtStartY = 0;
+
+thoughtDragHandle.addEventListener('pointerdown', (e) => {
+  thoughtDragging = true;
+  thoughtStartY = e.clientY;
+  thoughtDragHandle.setPointerCapture(e.pointerId);
+});
+
+thoughtDragHandle.addEventListener('pointermove', (e) => {
+  if (!thoughtDragging) return;
+  thoughtDragY = e.clientY - thoughtStartY;
+  if (thoughtDragY > 0) {
+    thoughtScroll.style.transform = `translateY(${thoughtDragY}px)`;
+  }
+});
+
+thoughtDragHandle.addEventListener('pointerup', () => {
+  if (!thoughtDragging) return;
+  thoughtDragging = false;
+  if (thoughtDragY > 100) {
+    closeThoughtModal();
+  }
+  thoughtScroll.style.transform = '';
+  thoughtDragY = 0;
+});
+
+// ESC to close thought modal
+document.addEventListener('keydown', (e) => {
+  if (thoughtModal.classList.contains('thought-modal--open') && e.key === 'Escape') {
+    e.preventDefault();
+    closeThoughtModal();
+  }
+});
+
+// ── Footer Canvas Animation ──
+function initFooterCanvas() {
+  const canvas = document.getElementById('footerCanvasEl');
+  const container = document.getElementById('footerCanvas');
+  if (!canvas || !container) return;
+
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animId;
+
+  function resize() {
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width * (window.devicePixelRatio || 1);
+    canvas.height = rect.height * (window.devicePixelRatio || 1);
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+  }
+
+  class Particle {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * canvas.height / (window.devicePixelRatio || 1);
+    }
+    reset() {
+      const dpr = window.devicePixelRatio || 1;
+      this.x = Math.random() * canvas.width / dpr;
+      this.y = canvas.height / dpr + 10;
+      this.size = Math.random() * 3 + 1;
+      this.speed = Math.random() * 0.5 + 0.2;
+      this.opacity = Math.random() * 0.15 + 0.05;
+    }
+    update() {
+      const dpr = window.devicePixelRatio || 1;
+      this.y -= this.speed;
+      if (this.y < -10) this.reset();
+    }
+    draw(ctx) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(19,23,24,${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    const count = 80;
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function animate() {
+    const dpr = window.devicePixelRatio || 1;
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+    particles.forEach(p => {
+      p.update();
+      p.draw(ctx);
+    });
+    animId = requestAnimationFrame(animate);
+  }
+
+  resize();
+  initParticles();
+  animate();
+
+  window.addEventListener('resize', () => {
+    resize();
+    initParticles();
+  });
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  applyContentPadding();
+  setItemWidths();
+  initEntrances();
+  updateActiveStates();
+  updateActiveItemClass(0);
+  initFooterCanvas();
+
+  const h3 = sliderMetaInner.querySelector('h3');
+  const p = sliderMetaInner.querySelector('p');
+  if (h3) h3.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  if (p) p.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+});
+
+window.addEventListener('resize', () => {
+  applyContentPadding();
+  setItemWidths();
+  updateActiveStates();
+});
+
+// Initial call for items that might already be in view
+applyContentPadding();
+setItemWidths();
+updateActiveStates();
+</script>
+</body>
+</html>
