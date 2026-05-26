@@ -279,6 +279,7 @@ ul li { margin: 0; padding: 0; }
   .slider .slider__item img,
   .slider .slider__item video { border-radius: 12px; }
   .slider .slider__item[data-ar="portrait"] { width: 42vw; }
+  .slider .slider__item[data-ar="landscape"] { width: 85vw; }
 }
 .slider .slider__item video {
   opacity: 0;
@@ -1464,13 +1465,10 @@ function openLightbox(index) {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       lightbox.classList.add('lightbox--revealed');
-      // Scroll to active
+      // Scroll to active — use scrollIntoView for reliable cross-device centering
       const target = lbItems[index];
       if (target) {
-        lightboxTrack.scrollTo({
-          left: target.offsetLeft - lightboxTrack.offsetWidth / 2 + target.offsetWidth / 2,
-          behavior: 'instant'
-        });
+        target.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'center' });
       }
     });
   });
@@ -1497,17 +1495,34 @@ lightbox.addEventListener('click', (e) => {
   }
 });
 
-// Lightbox track: click on item → advance
+// Lightbox track: click on item → advance (desktop) or prev/next (mobile)
 lightboxTrack.addEventListener('click', (e) => {
   const item = e.target.closest('.lightbox__item');
   if (!item) return;
   const idx = parseInt(item.dataset.index);
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+  const isMobile = window.innerWidth < 700;
+
   if (idx === lightboxIndex) {
-    closeLightbox();
+    if (isMobile) {
+      // Mobile: split active item into left (30%) prev / right (70%) next
+      const rect = item.getBoundingClientRect();
+      const relX = e.clientX - rect.left;
+      const ratio = relX / rect.width;
+      const dir = ratio < 0.3 ? -1 : 1;
+      const newIdx = lightboxIndex + dir;
+      if (newIdx < 0 || newIdx >= lbItems.length) return;
+      lightboxIndex = newIdx;
+      lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === newIdx));
+      updateLightboxCursors();
+      lbItems[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      scrollToItem(newIdx, false);
+    } else {
+      closeLightbox();
+    }
   } else {
     // Navigate to that item
     lightboxIndex = idx;
-    const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
     lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === idx));
     updateLightboxCursors();
     item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -1820,6 +1835,7 @@ function initFooterCanvas() {
 document.addEventListener('DOMContentLoaded', () => {
   applyContentPadding();
   setItemWidths();
+  scrollToItem(0, false);
   initEntrances();
   updateActiveStates();
   updateActiveItemClass(0);
