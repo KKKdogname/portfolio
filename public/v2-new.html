@@ -1919,6 +1919,7 @@ document.addEventListener('DOMContentLoaded', () => {
   applyContentPadding();
   setItemWidths();
   scrollToItem(0, false);
+  if (thoughtsTrackEl) thoughtsTrackEl.scrollLeft = 0;
   initEntrances();
   updateActiveStates();
   updateActiveItemClass(0);
@@ -1939,6 +1940,7 @@ window.addEventListener('resize', () => {
 // Initial call for items that might already be in view
 applyContentPadding();
 setItemWidths();
+if (thoughtsTrackEl) thoughtsTrackEl.scrollLeft = 0;
 updateActiveStates();
 </script>
 </body>
