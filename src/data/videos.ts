@@ -10,7 +10,7 @@ import type { Video } from '../types/portfolio';
  *   2. 将返回的 URL 粘贴到下方 videoUrl 字段
  */
 
-const VOD_URL = 'https://1329244566.vod-qcloud.com/15e3562cvodcq1329244566/c30df6865145403727830784409/XvbTaVUZusAA.mp4';
+const VOD_URL = 'https://1329244566.vod-qcloud.com/15e3562cvodcq1329244566/63b889295145403728024464988/9329nPasHLIA.mp4';
 
 export const videos: Video[] = [
   {
