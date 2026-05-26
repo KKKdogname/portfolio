@@ -1405,6 +1405,31 @@ track.addEventListener('keydown', (e) => {
 });
 track.setAttribute('tabindex', '0');
 
+// Touch: detect tap on slider items to open lightbox (pointer events skip touch for native scroll)
+let sliderTouch = { startX: 0, startY: 0, target: null };
+track.addEventListener('touchstart', (e) => {
+  sliderTouch.startX = e.touches[0].clientX;
+  sliderTouch.startY = e.touches[0].clientY;
+  sliderTouch.target = e.target.closest('.slider__item');
+}, { passive: true });
+
+track.addEventListener('touchend', (e) => {
+  const dx = Math.abs(e.changedTouches[0].clientX - sliderTouch.startX);
+  const dy = Math.abs(e.changedTouches[0].clientY - sliderTouch.startY);
+  if (dx < 10 && dy < 10 && sliderTouch.target) {
+    const idx = Array.from(items).indexOf(sliderTouch.target);
+    if (idx >= 0) {
+      e.preventDefault();
+      if (idx === activeIndex) {
+        openLightbox(idx);
+      } else {
+        scrollToItem(idx, true);
+      }
+    }
+  }
+  sliderTouch.target = null;
+});
+
 // ── Lightbox ──
 function buildLightboxItems() {
   lightboxTrack.innerHTML = '';
