@@ -2,15 +2,15 @@ import type { Video } from '../types/portfolio';
 
 /*
  * 视频托管在腾讯云点播 VOD (SubAppId: 1329244566)
- *   FileId: 5145403727889115298
- *   URL: https://1329244566.vod-qcloud.com/.../gH0FSCaeyS8A.mp4
+ *   FileId: 5145403727830784409
+ *   URL: https://1329244566.vod-qcloud.com/.../XvbTaVUZusAA.mp4
  *
  * 更新步骤（上传新视频）：
  *   1. 运行 node upload-vod.cjs 传入视频文件
  *   2. 将返回的 URL 粘贴到下方 videoUrl 字段
  */
 
-const VOD_URL = 'https://1329244566.vod-qcloud.com/15e3562cvodcq1329244566/06a6276e5145403727889115298/gH0FSCaeyS8A.mp4';
+const VOD_URL = 'https://1329244566.vod-qcloud.com/15e3562cvodcq1329244566/c30df6865145403727830784409/XvbTaVUZusAA.mp4';
 
 export const videos: Video[] = [
   {

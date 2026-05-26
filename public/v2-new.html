@@ -785,9 +785,10 @@ ul li { margin: 0; padding: 0; }
       <!-- Slider -->
       <div class="slider">
         <div class="slider__track" tabindex="-1" id="sliderTrack">
-          <div class="slider__item slider__item--active" role="button" tabindex="0" aria-label="Rattle" data-title="Rattle" data-cat="Web Design &amp; Engineering" data-ar="landscape" data-full="https://picsum.photos/seed/rattle/1600/1067">
+          <div class="slider__item slider__item--active" role="button" tabindex="0" aria-label="品牌形象片" data-title="品牌形象片" data-cat="商业 · 宣传片" data-ar="landscape" data-video="https://1329244566.vod-qcloud.com/15e3562cvodcq1329244566/c30df6865145403727830784409/XvbTaVUZusAA.mp4" data-full="https://picsum.photos/seed/video1/1600/1067">
             <div class="slider__item-inner">
-              <img src="https://picsum.photos/seed/rattle/680/453" alt="Rattle" draggable="false" loading="eager">
+              <img src="https://picsum.photos/seed/video1/680/453" alt="品牌形象片" draggable="false" loading="eager">
+              <video src="https://1329244566.vod-qcloud.com/15e3562cvodcq1329244566/c30df6865145403727830784409/XvbTaVUZusAA.mp4" muted loop playsinline preload="metadata"></video>
             </div>
           </div>
           <div class="slider__item" role="button" tabindex="0" aria-label="Selene Dreams" data-title="Selene Dreams" data-cat="Identity &amp; Web" data-ar="landscape" data-full="https://picsum.photos/seed/selene/1600/1067">
@@ -1257,6 +1258,35 @@ function updateActiveItemClass(idx) {
   items.forEach((item, i) => {
     item.classList.toggle('slider__item--active', i === idx);
   });
+  playSliderVideo(idx);
+}
+
+// ── Video playback: play active item's video, pause others ──
+function playSliderVideo(idx) {
+  items.forEach((item, i) => {
+    const video = item.querySelector('video');
+    if (!video) return;
+    if (i === idx) {
+      video.play().then(() => item.classList.add('slider__item--video-ready')).catch(() => {});
+    } else {
+      video.pause();
+      item.classList.remove('slider__item--video-ready');
+    }
+  });
+}
+
+function playLightboxVideo(idx) {
+  const lbItems = lightboxTrack.querySelectorAll('.lightbox__item');
+  lbItems.forEach((item, i) => {
+    const video = item.querySelector('video');
+    if (!video) return;
+    if (i === idx) {
+      video.play().then(() => item.classList.add('lightbox__item--video-ready')).catch(() => {});
+    } else {
+      video.pause();
+      item.classList.remove('lightbox__item--video-ready');
+    }
+  });
 }
 
 // Transitions on meta
@@ -1441,10 +1471,19 @@ function buildLightboxItems() {
     div.setAttribute('tabindex', '0');
     div.setAttribute('aria-label', item.dataset.title);
     div.dataset.index = i;
-    div.innerHTML = `
-      <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img" loading="lazy" draggable="false">
-      <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img--high" loading="lazy" draggable="false">
-    `;
+
+    const videoUrl = item.dataset.video;
+    if (videoUrl) {
+      div.innerHTML = `
+        <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img" loading="lazy" draggable="false">
+        <video src="${videoUrl}" muted loop playsinline preload="auto"></video>
+      `;
+    } else {
+      div.innerHTML = `
+        <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img" loading="lazy" draggable="false">
+        <img src="${item.dataset.full}" alt="${item.dataset.title}" class="lightbox__img--high" loading="lazy" draggable="false">
+      `;
+    }
     lightboxTrack.appendChild(div);
   });
 }
@@ -1485,6 +1524,7 @@ function openLightbox(index) {
   lightbox.classList.add('lightbox--open');
   document.body.style.overflow = 'hidden';
   updateLightboxCursors();
+  playLightboxVideo(index);
 
   // Reveal animation
   requestAnimationFrame(() => {
@@ -1502,6 +1542,8 @@ function openLightbox(index) {
 function closeLightbox() {
   lightbox.classList.add('lightbox--closing');
   lightbox.classList.remove('lightbox--revealed');
+  // Pause all lightbox videos
+  lightboxTrack.querySelectorAll('video').forEach(v => v.pause());
   setTimeout(() => {
     lightbox.classList.remove('lightbox--closing', 'lightbox--open');
     lightboxTrack.innerHTML = '';
@@ -1551,6 +1593,7 @@ lightboxTrack.addEventListener('touchend', (e) => {
     updateLightboxCursors();
     lbItems[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     scrollToItem(newIdx, false);
+    playLightboxVideo(newIdx);
   } else {
     // Tap on side item: navigate to it
     lightboxIndex = idx;
@@ -1558,6 +1601,7 @@ lightboxTrack.addEventListener('touchend', (e) => {
     updateLightboxCursors();
     item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     scrollToItem(idx, false);
+    playLightboxVideo(idx);
   }
   lbTouch.target = null;
 });
@@ -1578,6 +1622,7 @@ lightboxTrack.addEventListener('click', (e) => {
     updateLightboxCursors();
     item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     scrollToItem(idx, false);
+    playLightboxVideo(idx);
   }
 });
 
@@ -1598,6 +1643,7 @@ lightboxTrack.addEventListener('scroll', () => {
     lbItems.forEach((el, i) => el.classList.toggle('lightbox__item--active', i === bestIdx));
     updateLightboxCursors();
     scrollToItem(bestIdx, false);
+    playLightboxVideo(bestIdx);
   }
 }, { passive: true });
 
@@ -1614,6 +1660,7 @@ document.addEventListener('keydown', (e) => {
     updateLightboxCursors();
     lbItems[lightboxIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     scrollToItem(lightboxIndex, false);
+    playLightboxVideo(lightboxIndex);
   }
   if (e.key === 'ArrowRight') {
     e.preventDefault();
@@ -1622,6 +1669,7 @@ document.addEventListener('keydown', (e) => {
     updateLightboxCursors();
     lbItems[lightboxIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     scrollToItem(lightboxIndex, false);
+    playLightboxVideo(lightboxIndex);
   }
 });
 
@@ -1637,6 +1685,7 @@ lightbox.addEventListener('touchend', (e) => {
     updateLightboxCursors();
     lbItems[lightboxIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     scrollToItem(lightboxIndex, false);
+    playLightboxVideo(lightboxIndex);
   }
 });
 
