@@ -464,14 +464,14 @@ ul li { margin: 0; padding: 0; }
 }
 .thoughts .thoughts__title { color: var(--accent-color); }
 .thoughts .thoughts__track {
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
   scrollbar-width: none;
   gap: 8px;
   margin-block: -48px;
   padding-block: 48px;
   display: flex;
-  overflow: auto clip;
+  overflow-x: auto;
+  overflow-y: clip;
   touch-action: pan-x pan-y;
 }
 .thoughts .thoughts__track::-webkit-scrollbar { display: none; }
@@ -1693,7 +1693,7 @@ thoughtModal.addEventListener('click', (e) => {
   if (e.target.classList.contains('thought-modal__backdrop')) closeThoughtModal();
 });
 
-// Thought card click: active card → open modal, side cards → scroll to them
+// Thought card interaction: swipe to scroll, tap to open/navigate
 const thoughtsTrackEl = document.getElementById('thoughtsTrack');
 const thoughtItems = thoughtsTrackEl ? thoughtsTrackEl.querySelectorAll('.thoughts__item') : [];
 
@@ -1710,13 +1710,41 @@ function findActiveThoughtIndex() {
   return bestIdx;
 }
 
-document.querySelectorAll('.thoughts__card').forEach((card, i) => {
-  card.addEventListener('click', () => {
-    const activeIdx = findActiveThoughtIndex();
-    if (i === activeIdx) {
-      openThoughtModal(i);
-    } else if (thoughtItems[i]) {
-      thoughtItems[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+function handleThoughtTap(card) {
+  const i = Array.from(document.querySelectorAll('.thoughts__card')).indexOf(card);
+  if (i < 0) return;
+  const activeIdx = findActiveThoughtIndex();
+  if (i === activeIdx) {
+    openThoughtModal(i);
+  } else if (thoughtItems[i]) {
+    thoughtItems[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  }
+}
+
+// Touch: track movement to distinguish tap vs swipe
+let thoughtTouch = { startX: 0, startY: 0, target: null };
+if (thoughtsTrackEl) {
+  thoughtsTrackEl.addEventListener('touchstart', (e) => {
+    thoughtTouch.startX = e.touches[0].clientX;
+    thoughtTouch.startY = e.touches[0].clientY;
+    thoughtTouch.target = e.target.closest('.thoughts__card');
+  }, { passive: true });
+
+  thoughtsTrackEl.addEventListener('touchend', (e) => {
+    const dx = Math.abs(e.changedTouches[0].clientX - thoughtTouch.startX);
+    const dy = Math.abs(e.changedTouches[0].clientY - thoughtTouch.startY);
+    if (dx < 10 && dy < 10 && thoughtTouch.target) {
+      handleThoughtTap(thoughtTouch.target);
+    }
+    thoughtTouch.target = null;
+  });
+}
+
+// Desktop: click handler (no swipe ambiguity with mouse)
+document.querySelectorAll('.thoughts__card').forEach((card) => {
+  card.addEventListener('click', (e) => {
+    if (window.innerWidth >= 700) {
+      handleThoughtTap(card);
     }
   });
 });
