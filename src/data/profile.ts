@@ -1,13 +1,17 @@
 import type { Profile } from '../types/portfolio';
 
 export const profile: Profile = {
-  name: 'YOUR NAME',
-  title: 'Creative Director',
-  subtitle: '& Visual Artist',
+  name: 'Xuewei',
+  title: 'Editor, AIGC Creator',
+  subtitle: '& Designer',
   bio: [
-    '专注于品牌视觉与动态影像创作，拥有多年设计行业经验。',
-    '擅长将品牌故事转化为视觉语言，在光影与构图之间寻找独特的表达方式。',
-    '合作客户涵盖时尚、科技、文化等领域，作品曾获得多个国际设计奖项。',
+    '我剪辑，但不只是剪辑',
+    '我更愿意把时间花在剪辑台上——因为好的叙事，是让观众忘记剪辑本身',
+    '6年商业视频全流程',
+    '从TVC、口播、电商广告到AIGC驱动的内容',
+    '我选择用技术为审美服务，死磕每一个细节',
+    '如果你想要一支有理念、有质感、愿意花时间打磨的商业视频',
+    '那就来看看我的作品吧',
   ],
   email: 'hello@example.com',
   social: [
